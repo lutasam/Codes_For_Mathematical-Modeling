@@ -1,0 +1,44 @@
+#include<iostream>
+#include<cstring>
+#define MAXN 100
+using namespace std;
+int a[MAXN + 5][MAXN + 5];//a[i][x]表示vi到vx的最短距离 
+int f[MAXN + 5];//f[i]表示点vi到v10的最短距离 
+int suf[MAXN + 5];//suf[i]=x;表示i的后缀节点为x 
+int main()
+{
+	memset(a, 0, sizeof(a));
+	memset(suf, 0, sizeof(f));
+	int i, x, n;
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+	{
+		for (int x = 1; x <= n; x++)
+		{
+			cin >> a[i][x];
+		}
+		f[i] = 100000;
+	}
+	f[n] = 0;
+	for (int i = n - 1; i >= 1; i--)
+	{
+		for (int x = i + 1; x <= n; x++)
+		{
+			if ((a[i][x] > 0) && (f[x] != 100000) && (f[i] > a[i][x] + f[x]))
+				//如果vi到vx之间有路径，vx到v10有路径，并且vi直接到v10的路径大于通过vx中转的路径 
+			{
+				f[i] = a[i][x] + f[x];
+				suf[i] = x;//i节点的后缀节点为x 
+			}
+		}
+	}
+	x = 1;
+	cout << "minlong=" << f[1] << endl;
+	while (x != 0)//模拟循环链表 
+	{
+		cout << x << " ";
+		x = suf[x];
+	}
+	cout << endl;
+	return 0;
+}

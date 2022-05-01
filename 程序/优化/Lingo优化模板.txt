@@ -1,0 +1,24 @@
+model:
+
+SETS:
+WH/W1..W6/:AI;
+VD/V1..V8/:DJ;
+LINKS(WH,VD):C,X;
+ENDSETS
+
+DATA:
+AI=60,55,51,43,41,52;
+DJ=35,37,22,32,41,32,43,38;
+C=6,2,6,7,4,2,5,9
+  4,9,5,3,8,5,8,2
+  5,2,1,9,7,4,3,3
+  7,6,7,3,9,2,7,1
+  2,3,9,5,7,2,6,5
+  5,5,2,2,8,1,4,3;
+ENDDATA
+
+MIN=@SUM(LINKS(I,J):C(I,J)*X(I,J));
+@FOR(WH(I):@SUM(VD(J):X(I,J))<=AI(I));
+@FOR(VD(J):@SUM(WH(I):X(I,J))=DJ(J));
+
+end
